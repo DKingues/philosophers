@@ -4,11 +4,11 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 # Sources and objects
 
-SRCS = main.c parser.c helper.c
+SRCS = main.c parser.c helper.c info.c
 
 SRCS_DIR = srcs
 

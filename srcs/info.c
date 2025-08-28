@@ -1,36 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper.c                                           :+:      :+:    :+:   */
+/*   info.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 18:14:51 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/08/28 17:52:07 by dicosta-         ###   ########.fr       */
+/*   Created: 2025/08/28 18:21:10 by dicosta-          #+#    #+#             */
+/*   Updated: 2025/08/28 18:44:59 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	d_atoi(const char *str)
+t_data	philo_info(char **argv)
 {
-	int	i;
-	int	number;
+	t_data	philo;
 	
-	i = 0;
-	number = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-')
-		return (-1);
-	if (str[i] == '+')
-		i++;
-	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-	{
-		number *= 10;
-		number += str[i] - 48;
-		i++;
-	}
-	return (number);
+	philo.n_phil = d_atoi(argv[1]);
+	philo.tt_die = d_atoi(argv[2]);
+	philo.tt_sleep = d_atoi(argv[3]);
+	philo.tt_eat = d_atoi(argv[4]);
+	if (argv[5])
+		philo.number_of_meals = d_atoi(argv[5]);
+	return (philo);
 }
-
