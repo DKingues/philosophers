@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/08/28 18:39:58 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/08/29 22:33:37 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,31 @@
 
 typedef struct s_data
 {
-	int	n_phil;
-	int tt_die;
-	int tt_sleep;
-	int tt_eat;
-	int number_of_meals;
+	int	nbr_philo;
+	int time_to_die;
+	int time_to_sleep;
+	int time_to_eat;
+	int max_meals;
 } t_data;
 
 /* FUNCTIONS */
 
 // parser.c
 
-int parsing(int argc, char **args);
+int parse_input(int argc, char **args);
+int valid_input(char *av);
 
 // helper.c
+long ft_atol(const char *str);
 
-int	d_atoi(const char *str);
+// utils.c
+
+int		is_space(char c);
+void	error_exit(char *error_message);
+t_data *philo();
 
 // info.c
 
-t_data	philo_info(char **argv);
+void	get_philo_data(char **argv);
 
 #endif

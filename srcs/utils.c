@@ -1,44 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/27 18:14:51 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/08/29 22:27:49 by dicosta-         ###   ########.fr       */
+/*   Created: 2025/08/29 16:54:52 by dicosta-          #+#    #+#             */
+/*   Updated: 2025/08/29 19:53:45 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	is_space(char c)
+t_data *philo(void)
 {
-	return (c == ' ' || (c >= 9 && c <= 13));
+	static t_data	philo;
+	return (&philo);
 }
 
-long ft_atol(const char *str)
+void	error_exit(char *error_message)
 {
-	int		i;
-	long	number;
-	
-	i = 0;
-	number = 0;
-	while (is_space(str[i]))
-		i++;
-	if (str[i] == '-')
-		return (-1);
-	if (str[i] == '+')
-		i++;
-	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-	{
-		number *= 10;
-		number += str[i] - 48;
-		i++;
-	}
-	if (number > 2147483647)
-		error_exit("a number is higher than INT_MAX.");
-	return (number);
+	printf(ERR);
+	printf(NOCLR"%s\n", error_message);
+	exit(EXIT_FAILURE);
 }
-
-
