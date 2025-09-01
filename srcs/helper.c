@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:14:51 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/08/29 22:27:49 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:21:34 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ long ft_atol(const char *str)
 		number += str[i] - 48;
 		i++;
 	}
-	if (number > 2147483647)
-		error_exit("a number is higher than INT_MAX.");
 	return (number);
 }
 

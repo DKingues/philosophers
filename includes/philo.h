@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/08/29 22:33:37 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:23:58 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,34 @@
 
 /* STRUCTURES */
 
+typedef	enum	s_opcode
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH
+}	t_opcode;
+
+typedef struct	s_philo
+{
+	int		id;
+	long	last_meal_time;
+	int		meal_counter;
+	
+} t_philo;
+
 typedef struct s_data
 {
-	int	nbr_philo;
-	int time_to_die;
-	int time_to_sleep;
-	int time_to_eat;
-	int max_meals;
+	int		nbr_philo;
+	long	time_to_die;
+	long	time_to_sleep;
+	long	time_to_eat;
+	int		max_meals;
+	long	simulation_start;
+	int		end_simulation;
 } t_data;
 
 /* FUNCTIONS */
@@ -46,7 +67,7 @@ typedef struct s_data
 // parser.c
 
 int parse_input(int argc, char **args);
-int valid_input(char *av);
+int valid_parameter(char *av);
 
 // helper.c
 long ft_atol(const char *str);

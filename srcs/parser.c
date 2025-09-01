@@ -6,49 +6,93 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:16 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/08/29 22:39:32 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:01:34 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int parse_input(int ac, char **av)
+int check_times(char **av)
+{
+	if (ft_atol(av[2]) < 60 || ft_atol(av[3]) < 60 || ft_atol(av[4]) < 60)
+		return (FALSE);
+	return (TRUE);
+}
+
+int check_intmax(char **av)
 {
 	int	i;
-
+	long number;
+	int len;
+	
 	i = 1;
-	if (ac != 5 && ac != 6)
-		error_exit("invalid number of arguments.");
 	while (av[i])
 	{
-		if(!valid_input(av[i]))
-			return (0);
+		len = 0;
+		number = ft_atol(av[i]);
+		while (number != 0)
+		{
+			number /= 10;
+			len++;
+			if (len > 10)
+				return (FALSE);
+		}
+		if (ft_atol(av[i]) > 2147483647)
+			return (FALSE);
 		i++;
 	}
 	return (TRUE);
 }
 
-int valid_input(char *av)
+int check_digit(char **av)
 {
-	int i;
-	int len;
+	int	i;
+	int	j;
 	
-	i = 0;
-	len = 0;
-	while (is_space(av[i]))
-		i++;
-	if (av[i] == '-')
-		error_exit("only positive values allowed.");
-	if (av[i] == '+')
-		i++;
-	while (av[i] >= '0' && av[i] <= '9')
+	i = 1;
+	while (av[i])
 	{
+		j = 0;
+		while(is_space(av[i][j]))
+			j++;
+		if (av[i][j] == '+')
+			j++;
+		if (!(av[i][j] && (av[i][j] >= '0' && av[i][j] <= '9')))
+			return (FALSE);
 		i++;
-		len++;
 	}
-	if (av[2] < 60 || av[3] < 60 || av[4] < 60)
+	return (TRUE);
+}
+
+int check_negatives(char **av)
+{
+	int	i;
+	int	j;
+	
+	i = 1;
+	while (av[i])
+	{
+		j = 0;
+		while(is_space(av[i][j]))
+			j++;
+		if (av[i][j] == '-')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
+int parse_input(int ac, char **av)
+{
+	if (ac != 5 && ac != 6)
+		error_exit("invalid number of arguments.");
+	if (check_negatives(av) == FALSE)
+		error_exit("all values must be positive.");
+	if (check_digit(av) == FALSE)
+		error_exit("all values must be numerical.");
+	if (check_intmax(av) == FALSE)
+		error_exit("numbers cannot be higher than INT_MAX.");
+	if (check_times(av) == FALSE)
 		error_exit("times must be higher than 60ms.");
-	if (len > 10)
-		error_exit("a number is higher than INT_MAX.");
 	return (TRUE);
 }
