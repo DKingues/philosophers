@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:14 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/01 16:03:43 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/04 15:58:21 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,28 @@
 
 void print_struct()
 {
-	printf("Number of Philosophers: [%d]\n", philo()->nbr_philo);
-	printf("Time to die: [%ld]\n", philo()->time_to_die);
-	printf("Time to sleep: [%ld]\n", philo()->time_to_sleep);
-	printf("Time to eat: [%ld]\n", philo()->time_to_eat);
-	if (philo()->max_meals)
-		printf("Number of meals: [%d]\n", philo()->max_meals);
+	int i;
+
+	i = 0;
+	printf("Number of Philosophers: [%d]\n", table()->nbr_philo);
+	printf("Time to die: [%ld]\n", table()->time_to_die);
+	printf("Time to sleep: [%ld]\n", table()->time_to_sleep);
+	printf("Time to eat: [%ld]\n", table()->time_to_eat);
+	if (table()->max_meals)
+		printf("Number of meals: [%d]\n", table()->max_meals);
+	printf("NOW SET TABLE\n");
+	while (i < table()->nbr_philo)
+	{
+		printf("Philos ID: %d\n", table()->philos[i].id);
+		//printf("Philos thread_ID: %ld\n", table()->philos[i].thread_id);
+		printf("Philos last meal: %ld\n", table()->philos[i].last_meal_time);
+		printf("Philos meal counter: %d\n", table()->philos[i].meal_counter);
+		printf("Philos left fork: %d\n", table()->philos[i].left_fork->fork_id);
+		printf("Philos right fork: %d\n", table()->philos[i].right_fork->fork_id);
+		i++;
+	}
 }
-int	main(int ac, char	**av)
+int	main(int ac, char **av)
 {
 	/*
 	1. Parse input: 5-6 args, no negatives, no alphabetical, check min time values
@@ -29,7 +43,8 @@ int	main(int ac, char	**av)
 
 	if (parse_input(ac, av) == TRUE)
 	{
-		get_philo_data(av);
+		set_table(av);
+		start_dinner();
 	}
 
 	/*
@@ -43,6 +58,5 @@ int	main(int ac, char	**av)
 	/*
 	4. Close, clean and cover leaks
 	*/
-	print_struct();
 	return (0);
 }

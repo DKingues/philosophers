@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 18:14:51 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/01 15:21:34 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:39:14 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	is_space(char c)
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-long ft_atol(const char *str)
+long ft_patol(const char *str)
 {
 	int		i;
 	long	number;
-	
+
 	i = 0;
 	number = 0;
 	while (is_space(str[i]))
@@ -38,5 +38,3 @@ long ft_atol(const char *str)
 	}
 	return (number);
 }
-
-

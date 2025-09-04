@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:16 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/01 16:01:34 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:15:14 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int check_times(char **av)
 {
-	if (ft_atol(av[2]) < 60 || ft_atol(av[3]) < 60 || ft_atol(av[4]) < 60)
+	if (ft_patol(av[2]) < 60 || ft_patol(av[3]) < 60 || ft_patol(av[4]) < 60)
 		return (FALSE);
 	return (TRUE);
 }
@@ -29,7 +29,7 @@ int check_intmax(char **av)
 	while (av[i])
 	{
 		len = 0;
-		number = ft_atol(av[i]);
+		number = ft_patol(av[i]);
 		while (number != 0)
 		{
 			number /= 10;
@@ -37,7 +37,7 @@ int check_intmax(char **av)
 			if (len > 10)
 				return (FALSE);
 		}
-		if (ft_atol(av[i]) > 2147483647)
+		if (ft_patol(av[i]) > 2147483647)
 			return (FALSE);
 		i++;
 	}

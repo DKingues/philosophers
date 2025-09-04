@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/01 17:23:58 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/04 15:56:15 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 
 /* ALIAS */
 
+# define EPERM 1
+# define ESRCH 3
+# define EAGAIN 11
+# define ENOMEN 12
+# define EBUSY 16
+# define EINVAL 22
+# define EDEADLK 35
 # define NOCLR "\033[0m"
 # define RED "\033[1;31m"
 # define ERR "\033[1;31m""Error: ""\033[0m"
@@ -31,6 +38,14 @@
 # define FALSE 0
 
 /* STRUCTURES */
+
+typedef	enum	s_statuscode
+{
+	EAT,
+	SLEEP,
+	THINK,
+	DEAD
+}	t_statuscode;
 
 typedef	enum	s_opcode
 {
@@ -43,12 +58,20 @@ typedef	enum	s_opcode
 	DETACH
 }	t_opcode;
 
+typedef struct s_fork
+{
+	pthread_mutex_t fork;
+	int				fork_id;
+} t_fork;
+
 typedef struct	s_philo
 {
-	int		id;
-	long	last_meal_time;
-	int		meal_counter;
-	
+	int			id;
+	long		last_meal_time;
+	int			meal_counter;
+	t_fork		*left_fork;
+	t_fork		*right_fork;
+	pthread_t	thread_id;
 } t_philo;
 
 typedef struct s_data
@@ -60,6 +83,8 @@ typedef struct s_data
 	int		max_meals;
 	long	simulation_start;
 	int		end_simulation;
+	t_fork	*forks;
+	t_philo	*philos;
 } t_data;
 
 /* FUNCTIONS */
@@ -70,16 +95,24 @@ int parse_input(int argc, char **args);
 int valid_parameter(char *av);
 
 // helper.c
-long ft_atol(const char *str);
+
+int		is_space(char c);
+long	ft_patol(const char *str);
 
 // utils.c
 
-int		is_space(char c);
+t_data *table();
 void	error_exit(char *error_message);
-t_data *philo();
+void	*safe_malloc(size_t bytes);
+void 	print_status(int id, t_statuscode status);
 
 // info.c
 
-void	get_philo_data(char **argv);
+void	set_table(char **argv);
+
+// thread_utils.c
+
+void	thread_handler(pthread_t thread, void *(*func)(void *), void *data, t_opcode opcode);
+void	mtx_handler(pthread_mutex_t *mutex, t_opcode opcode);
 
 #endif
