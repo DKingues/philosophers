@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/04 15:56:15 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/06 17:17:55 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_data
 
 int parse_input(int argc, char **args);
 int valid_parameter(char *av);
-
+void	set_philos(void);
 // helper.c
 
 int		is_space(char c);

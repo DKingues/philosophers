@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 # Sources and objects
 
-SRCS = main.c parser.c helper.c data_start.c thread_utils.c utils.c
+SRCS = start.c main.c parser.c helper.c data_start.c thread_utils.c utils.c
 
 SRCS_DIR = srcs
 

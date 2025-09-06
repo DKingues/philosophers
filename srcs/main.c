@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:14 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/04 15:58:21 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/06 16:47:00 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int ac, char **av)
 	if (parse_input(ac, av) == TRUE)
 	{
 		set_table(av);
-		start_dinner();
+		set_philos();
 	}
 
 	/*

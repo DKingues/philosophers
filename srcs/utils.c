@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:54:52 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/04 15:59:21 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/06 16:33:15 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void print_status(int id, t_statuscode status)
 	else if (status == THINK)
 		printf("[%ld] - %d is thinking.\n", time, id);
 	else if (status == DEAD)
-		printf("[%ld] - %d died.\n", time ,id);
+		printf("[%ld] - %d died.\n", time, id);
 }
 void	*safe_malloc(size_t bytes)
 {

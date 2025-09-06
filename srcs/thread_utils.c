@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 14:23:01 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/04 15:55:57 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/06 16:41:10 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	thread_err_check(int error)
 void	thread_handler(pthread_t thread, void *(*func)(void *), void *data, t_opcode opcode)
 {
 	if (opcode == CREATE)
-		thread_err_check(pthread_create(thread, NULL, func, data));
+		thread_err_check(pthread_create(&thread, NULL, func, data));
 	else if (opcode == JOIN)
 		thread_err_check(pthread_join(thread, NULL));
 	else if (opcode == DETACH)

@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 18:21:10 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/04 15:19:49 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/06 16:38:23 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	set_table(char **argv)
 	table()->time_to_sleep = ft_patol(argv[3]) * 1e3;
 	table()->time_to_eat = ft_patol(argv[4]) * 1e3;
 	table()->forks = safe_malloc(sizeof(t_fork) * table()->nbr_philo);
-	create_forks();
-	table()->philos = safe_malloc(sizeof(t_philo) * table()->nbr_philo);
-	create_philos();
 	if (argv[5])
 		table()->max_meals = ft_patol(argv[5]);
 	else
 		table()->max_meals = -1;
 	table()->end_simulation = FALSE;
+	create_forks();
+	table()->philos = safe_malloc(sizeof(t_philo) * table()->nbr_philo);
+	create_philos();
 }
