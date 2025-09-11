@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/06 17:17:55 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:39:59 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 typedef	enum	s_statuscode
 {
+	FORK,
 	EAT,
 	SLEEP,
 	THINK,
@@ -68,6 +69,7 @@ typedef struct	s_philo
 {
 	int			id;
 	long		last_meal_time;
+	int			full;
 	int			meal_counter;
 	t_fork		*left_fork;
 	t_fork		*right_fork;
@@ -83,6 +85,7 @@ typedef struct s_data
 	int		max_meals;
 	long	simulation_start;
 	int		end_simulation;
+	int		sync;
 	t_fork	*forks;
 	t_philo	*philos;
 } t_data;
@@ -91,9 +94,10 @@ typedef struct s_data
 
 // parser.c
 
-int parse_input(int argc, char **args);
-int valid_parameter(char *av);
+int 	parse_input(int argc, char **args);
+int 	valid_parameter(char *av);
 void	set_philos(void);
+
 // helper.c
 
 int		is_space(char c);
@@ -104,7 +108,10 @@ long	ft_patol(const char *str);
 t_data *table();
 void	error_exit(char *error_message);
 void	*safe_malloc(size_t bytes);
+long	get_time(void);
 void 	print_status(int id, t_statuscode status);
+long	get_elapsed_time(long time);
+void	precise_usleep(long time);
 
 // info.c
 
@@ -112,7 +119,7 @@ void	set_table(char **argv);
 
 // thread_utils.c
 
-void	thread_handler(pthread_t thread, void *(*func)(void *), void *data, t_opcode opcode);
+void	thread_handler(pthread_t *thread, void *(*func)(void *), void *data, t_opcode opcode);
 void	mtx_handler(pthread_mutex_t *mutex, t_opcode opcode);
 
 #endif

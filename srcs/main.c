@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:14 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/06 16:47:00 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:31:06 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void print_struct()
 	printf("Time to die: [%ld]\n", table()->time_to_die);
 	printf("Time to sleep: [%ld]\n", table()->time_to_sleep);
 	printf("Time to eat: [%ld]\n", table()->time_to_eat);
-	if (table()->max_meals)
-		printf("Number of meals: [%d]\n", table()->max_meals);
+	printf("Number of meals: [%d]\n", table()->max_meals);
 	printf("NOW SET TABLE\n");
 	while (i < table()->nbr_philo)
 	{
@@ -44,6 +43,7 @@ int	main(int ac, char **av)
 	if (parse_input(ac, av) == TRUE)
 	{
 		set_table(av);
+		//print_struct();
 		set_philos();
 	}
 

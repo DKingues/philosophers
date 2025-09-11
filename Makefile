@@ -77,9 +77,12 @@ re: fclean all
 .PHONY: all clean fclean re
 
 r:
-	@make re && clear && ./minishell
+	@make re && clear && ./philo
 
 rv:
-	@make re && clear && valgrind --leak-check=full --show-leak-kinds=all  --track-fds=yes --track-origins=yes  --suppressions=readline.supp -s ./minishell
+	@make re && clear && valgrind --leak-check=full --show-leak-kinds=all  --track-fds=yes --track-origins=yes  --suppressions=readline.supp -s ./philo
 
+gdb:
+ 
+	@make re && clear && gdb
 	

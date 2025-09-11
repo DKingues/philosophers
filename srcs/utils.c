@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:54:52 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/06 16:33:15 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:12:54 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,55 @@ t_data *table(void)
 
 void	error_exit(char *error_message)
 {
-	printf(ERR);
-	printf(NOCLR"%s\n", error_message);
+	if (error_message)
+	{
+		printf(ERR);
+		printf(NOCLR"%s\n", error_message);
+		exit(EXIT_FAILURE);
+	}
 	exit(EXIT_FAILURE);
 }
-
-__uint64_t	get_time()
+long	get_time(void)
 {
 	struct timeval tv;
 
 	if(gettimeofday(&tv, NULL))
 		return (0);
-	return (tv.tv_usec / 1000);
+	return (tv.tv_sec * (long)1000 + (tv.tv_usec / 1000));
 }
 
+// void precise_usleep(long time)
+// {
+// 	long start = get_time();
+// 	printf("start %ld\n", start - table()->simulation_start);
+// 	if (time > (start - table()->simulation_start))
+// 		usleep(time);
+// 	else
+// 		usleep(time - 1000);
+// }
+
+long	get_elapsed_time(long time)
+{
+	long curr_time;
+	long elapsed;
+	
+	curr_time = get_time() - table()->simulation_start;
+	elapsed = time - table()->simulation_start;
+	return (curr_time - elapsed);
+}
 void print_status(int id, t_statuscode status)
 {
-	long time;
-
-	time = get_time();
-	if (status == EAT)
-		printf("[%ld] - %d is eating.\n", time, id);
+	long time = get_time();
+	if (status == FORK)
+		printf("%ld %d has taken a fork\n", time - table()->simulation_start, id);
+	else if (status == EAT)
+		printf("%ld %d is eating\n", time - table()->simulation_start, id);
 	else if (status == SLEEP)
-		printf("[%ld] - %d is sleeping.\n", time, id);
+		printf("%ld %d is sleeping\n", time - table()->simulation_start, id);
 	else if (status == THINK)
-		printf("[%ld] - %d is thinking.\n", time, id);
+		printf("%ld %d is thinking\n", time - table()->simulation_start, id);
 	else if (status == DEAD)
-		printf("[%ld] - %d died.\n", time, id);
+		printf("%ld %d died\n", time - table()->simulation_start, id);
 }
 void	*safe_malloc(size_t bytes)
 {
