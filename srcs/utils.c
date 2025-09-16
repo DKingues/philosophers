@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:54:52 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/11 15:12:54 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/16 21:09:13 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,14 @@ long	get_time(void)
 	return (tv.tv_sec * (long)1000 + (tv.tv_usec / 1000));
 }
 
-// void precise_usleep(long time)
-// {
-// 	long start = get_time();
-// 	printf("start %ld\n", start - table()->simulation_start);
-// 	if (time > (start - table()->simulation_start))
-// 		usleep(time);
-// 	else
-// 		usleep(time - 1000);
-// }
+ void precise_usleep(long time)
+ {
+ 	long start;
+	
+	start = get_time();
+	while (get_elapsed_time(start) < (time - 190) / 1e3)
+		usleep(10);
+ }
 
 long	get_elapsed_time(long time)
 {
@@ -59,6 +58,7 @@ long	get_elapsed_time(long time)
 void print_status(int id, t_statuscode status)
 {
 	long time = get_time();
+	//printf("time: %ld\t simstart: %ld\n", time, table()->simulation_start);
 	if (status == FORK)
 		printf("%ld %d has taken a fork\n", time - table()->simulation_start, id);
 	else if (status == EAT)

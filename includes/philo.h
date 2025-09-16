@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/11 17:39:59 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:57:40 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ typedef struct s_data
 	int		max_meals;
 	long	simulation_start;
 	int		end_simulation;
-	int		sync;
+	pthread_mutex_t	end;
+	int		all_sync;
+	pthread_mutex_t	sync;
 	t_fork	*forks;
 	t_philo	*philos;
 } t_data;
