@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:16 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/03 14:15:14 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:08:23 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ int check_negatives(char **av)
 int parse_input(int ac, char **av)
 {
 	if (ac != 5 && ac != 6)
-		error_exit("invalid number of arguments.");
+		return (print_error("invalid number of arguments."), FALSE);
 	if (check_negatives(av) == FALSE)
-		error_exit("all values must be positive.");
+		return (print_error("all values must be positive."), FALSE);
 	if (check_digit(av) == FALSE)
-		error_exit("all values must be numerical.");
+		return (print_error("all values must be numerical."), FALSE);
 	if (check_intmax(av) == FALSE)
-		error_exit("numbers cannot be higher than INT_MAX.");
+		return (print_error("numbers cannot be higher than INT_MAX."), FALSE);
 	if (check_times(av) == FALSE)
-		error_exit("times must be higher than 60ms.");
+		return (print_error("times must be higher than 60ms."), FALSE);
 	return (TRUE);
 }

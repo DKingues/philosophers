@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/16 19:57:40 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:16:25 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ typedef struct s_data
 	int		end_simulation;
 	pthread_mutex_t	end;
 	int		all_sync;
+	pthread_mutex_t	print;
 	pthread_mutex_t	sync;
+	pthread_mutex_t	mutex;
 	t_fork	*forks;
 	t_philo	*philos;
 } t_data;
@@ -109,11 +111,13 @@ long	ft_patol(const char *str);
 
 t_data *table();
 void	error_exit(char *error_message);
+void	print_error(char *error_message);
 void	*safe_malloc(size_t bytes);
 long	get_time(void);
 void 	print_status(int id, t_statuscode status);
 long	get_elapsed_time(long time);
 void	precise_usleep(long time);
+int		get_bool(int value);
 
 // info.c
 
@@ -124,4 +128,7 @@ void	set_table(char **argv);
 void	thread_handler(pthread_t *thread, void *(*func)(void *), void *data, t_opcode opcode);
 void	mtx_handler(pthread_mutex_t *mutex, t_opcode opcode);
 
+// actions.c
+
+void	put_forks(int id);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 18:21:10 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/16 19:59:03 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:56:00 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	set_table(char **argv)
 	table()->all_sync = FALSE;
 	mtx_handler(&table()->sync, INIT);
 	mtx_handler(&table()->end, INIT);
+	mtx_handler(&table()->end, INIT);
+	mtx_handler(&table()->mutex, INIT);
 	create_forks();
 	table()->philos = safe_malloc(sizeof(t_philo) * table()->nbr_philo);
 	create_philos();
