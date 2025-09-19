@@ -6,27 +6,37 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:54:52 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/18 19:16:01 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:07:51 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-t_data *table(void)
+int	is_space(char c)
 {
-	static t_data	table;
-	return (&table);
+	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-void	error_exit(char *error_message)
+long ft_patol(const char *str)
 {
-	if (error_message)
+	int		i;
+	long	number;
+
+	i = 0;
+	number = 0;
+	while (is_space(str[i]))
+		i++;
+	if (str[i] == '-')
+		return (-1);
+	if (str[i] == '+')
+		i++;
+	while (str[i] && (str[i] >= '0' && str[i] <= '9'))
 	{
-		printf(ERR);
-		printf(NOCLR"%s\n", error_message);
-		exit(1);
+		number *= 10;
+		number += str[i] - 48;
+		i++;
 	}
-	exit(1);
+	return (number);
 }
 
 void	print_error(char *error_message)
@@ -37,37 +47,8 @@ void	print_error(char *error_message)
 		printf(NOCLR"%s\n", error_message);
 	}
 }
-long	get_time(void)
-{
-	struct timeval tv;
 
-	if(gettimeofday(&tv, NULL))
-		return (0);
-	return (tv.tv_sec * (long)1000 + (tv.tv_usec / 1000));
-}
-
- void precise_usleep(long time)
- {
- 	long start;
-	
-	start = get_time();
-	while (get_elapsed_time(start) < (time - 190) / 1e3)
-		usleep(10);
- }
-
-long	get_elapsed_time(long time)
-{
-	long curr_time;
-	long elapsed;
-	
-	mtx_handler(&table()->mutex, LOCK);
-	curr_time = get_time() - table()->simulation_start;
-	elapsed = time - table()->simulation_start;
-	mtx_handler(&table()->mutex, UNLOCK);
-	return (curr_time - elapsed);
-}
-
-int		get_bool(int value)
+int		get_value(int value)
 {
 	int	swapper;
 	mtx_handler(&table()->mutex, LOCK);
@@ -78,8 +59,9 @@ int		get_bool(int value)
 
 void print_status(int id, t_statuscode status)
 {
-	long time = get_time();
-	//printf("time: %ld\t simstart: %ld\n", time, table()->simulation_start);
+	long time;
+
+	time = get_time();
 	mtx_handler(&table()->print, LOCK);
 	if (table()->end_simulation == 0)
 	{
@@ -96,13 +78,4 @@ void print_status(int id, t_statuscode status)
 	else if (status == DEAD)
 		printf("%ld %d died\n", time - table()->simulation_start, id);
 	mtx_handler(&table()->print, UNLOCK);
-}
-void	*safe_malloc(size_t bytes)
-{
-	void *alloc;
-	
-	alloc = malloc(bytes);
-	if (!alloc)
-		error_exit("memory allocation fail.");
-	return (alloc);
 }

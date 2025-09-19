@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:56:49 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/18 19:16:25 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:00:13 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 /* LIBRARIES */
 
-#include <stdio.h>     // printf
-#include <stdlib.h>    // malloc, free
-#include <string.h>    // memset
-#include <unistd.h>    // write, usleep
-#include <sys/time.h>  // gettimeofday
-#include <pthread.h>   // pthread_* functions and pthread_mutex_*
+#include <stdio.h>		// printf
+#include <stdlib.h>		// malloc, free
+#include <string.h>		// memset
+#include <unistd.h>		// write, usleep
+#include <sys/time.h> 	// gettimeofday
+#include <pthread.h>	// pthread_* functions and pthread_mutex_*
+#include <stdbool.h>	// boolean functions
 
 /* ALIAS */
 
@@ -34,8 +35,7 @@
 # define NOCLR "\033[0m"
 # define RED "\033[1;31m"
 # define ERR "\033[1;31m""Error: ""\033[0m"
-# define TRUE 1
-# define FALSE 0
+# define SYNCH 500
 
 /* STRUCTURES */
 
@@ -85,10 +85,10 @@ typedef struct s_data
 	int		max_meals;
 	long	simulation_start;
 	int		end_simulation;
-	pthread_mutex_t	end;
 	int		all_sync;
-	pthread_mutex_t	print;
 	pthread_mutex_t	sync;
+	pthread_mutex_t	end;
+	pthread_mutex_t	print;
 	pthread_mutex_t	mutex;
 	t_fork	*forks;
 	t_philo	*philos;
@@ -110,18 +110,18 @@ long	ft_patol(const char *str);
 // utils.c
 
 t_data *table();
-void	error_exit(char *error_message);
 void	print_error(char *error_message);
+void	error_exit(char *error_message);
 void	*safe_malloc(size_t bytes);
 long	get_time(void);
 void 	print_status(int id, t_statuscode status);
 long	get_elapsed_time(long time);
 void	precise_usleep(long time);
-int		get_bool(int value);
+int		get_value(int value);
 
 // info.c
 
-void	set_table(char **argv);
+int		set_table(char **argv);
 
 // thread_utils.c
 
@@ -131,4 +131,7 @@ void	mtx_handler(pthread_mutex_t *mutex, t_opcode opcode);
 // actions.c
 
 void	put_forks(int id);
+void	get_forks(int id);
+void	sleep_think(int id);
+void	eat(int id);
 #endif

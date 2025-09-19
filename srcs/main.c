@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 17:12:14 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/10 14:31:06 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:22:05 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void print_struct()
 	while (i < table()->nbr_philo)
 	{
 		printf("Philos ID: %d\n", table()->philos[i].id);
-		//printf("Philos thread_ID: %ld\n", table()->philos[i].thread_id);
 		printf("Philos last meal: %ld\n", table()->philos[i].last_meal_time);
 		printf("Philos meal counter: %d\n", table()->philos[i].meal_counter);
 		printf("Philos left fork: %d\n", table()->philos[i].left_fork->fork_id);
@@ -34,22 +33,40 @@ void print_struct()
 		i++;
 	}
 }
+
+t_data *table(void)
+{
+	static t_data	table;
+	return (&table);
+}
+void	clean_exit(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < table()->nbr_philo)
+	{
+		mtx_handler(&table()->forks[i].fork, DESTROY);
+		i++;
+	}
+	mtx_handler(&table()->mutex, DESTROY);
+	mtx_handler(&table()->end, DESTROY);
+	mtx_handler(&table()->print, DESTROY);
+	if (table()->forks)
+		free(table()->forks);
+	if (table()->forks)
+		free(table()->philos);
+}
 int	main(int ac, char **av)
 {
-	/*
-	1. Parse input: 5-6 args, no negatives, no alphabetical, check min time values
-	*/
-
-	if (parse_input(ac, av) == TRUE)
+	if (parse_input(ac, av))
 	{
-		set_table(av);
-		//print_struct();
+		if (!set_table(av))
+			return (0);
 		set_philos();
+		printf("leaving\n");
+		clean_exit();
 	}
-
-	/*
-	2. Organize input into structures.
-	*/
 
 	/*
 	3. Start the feast

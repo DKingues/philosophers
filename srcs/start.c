@@ -6,7 +6,7 @@
 /*   By: dicosta- <dicosta-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 16:00:05 by dicosta-          #+#    #+#             */
-/*   Updated: 2025/09/18 19:08:54 by dicosta-         ###   ########.fr       */
+/*   Updated: 2025/09/19 18:14:21 by dicosta-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,35 @@ void	single_philo(void)
 	print_status(table()->philos[0].id, DEAD);
 	return ;
 }
-void	synchronize_threads(void)
-{	
-	while(1)
-	{
-		pthread_mutex_lock(&table()->mutex);
-		if(table()->all_sync == TRUE)
-			break ;
-		pthread_mutex_unlock(&table()->mutex);
-		usleep(500);
-	}
-	pthread_mutex_unlock(&table()->mutex);
-}
+// void	synchronize_threads(void)
+// {	
+// 	while(1)
+// 	{
+// 		mtx_handler(&table()->mutex, LOCK);
+// 		if(table()->all_sync == true)
+// 			break ;
+// 		mtx_handler(&table()->mutex, UNLOCK);
+// 		usleep(500);
+// 	}
+// 	mtx_handler(&table()->mutex, UNLOCK);
+// }
 
 void	get_forks(int id)
 {
 	mtx_handler(&table()->philos[id].left_fork->fork, LOCK);
 	print_status(table()->philos[id].id, FORK);
 	mtx_handler(&table()->philos[id].right_fork->fork, LOCK);
-	print_status(table()->philos[id].id, FORK);	
+	print_status(table()->philos[id].id, FORK);
 }
 
 void	eat(int id)
 {
 	mtx_handler(&table()->end, LOCK);
-	if (table()->time_to_die / 1000 - table()->philos[id].last_meal_time - table()->time_to_eat / 1000 < 0 && table()->end_simulation == 0)
+	if (table()->time_to_die - table()->philos[id].last_meal_time - table()->time_to_eat < 0 && table()->end_simulation == 0)
 	{
 		table()->end_simulation = 1;
 		print_status(table()->philos[id].id, EAT);
-		precise_usleep(table()->time_to_die - table()->philos[id].last_meal_time * 1000);
+		precise_usleep(table()->time_to_die - table()->philos[id].last_meal_time);
 		print_status(table()->philos[id].id, DEAD);
 		mtx_handler(&table()->end, UNLOCK);
 		put_forks(id);
@@ -85,23 +85,19 @@ void	sleep_think(int id)
 
 void	*start_dinner(void *data)
 {
-	int 	i;
+	int 	i; 
 	
 	i = *(int *)data - 1;
-	//synchronize_threads();
-	usleep(50);
+	usleep(SYNCH);
 	if (table()->philos[i].id % 2 != 0)
 		usleep(table()->time_to_eat);
 	table()->philos[i].last_meal_time = get_time();
-	while (get_bool(table()->end_simulation == FALSE))
+	while (!get_value(table()->end_simulation))
 	{
 		table()->philos[i].last_meal_time = get_elapsed_time(table()->philos[i].last_meal_time);
-		if (table()->philos[i].meal_counter != table()->max_meals)
-		{
-			get_forks(i);
-			eat(i);
-			put_forks(i);
-		}
+		get_forks(i);
+		eat(i);
+		put_forks(i);
 		sleep_think(i);
 	}
 	return (NULL);
@@ -123,10 +119,9 @@ void	set_philos(void)
 	{
 		while (++i < table()->nbr_philo)
 			thread_handler(&table()->philos[i].thread_id, start_dinner, (void *)&table()->philos[i].id, CREATE);
+		mtx_handler(&table()->mutex, LOCK);
 		table()->simulation_start = get_time();
-		pthread_mutex_lock(&table()->mutex);
-		table()->all_sync = TRUE;
-		pthread_mutex_unlock(&table()->mutex);
+		mtx_handler(&table()->mutex, UNLOCK);
 		i = -1;
 		while (++i < table()->nbr_philo)
 			thread_handler(&table()->philos[i].thread_id, NULL, NULL, JOIN);
